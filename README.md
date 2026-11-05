@@ -1,0 +1,1 @@
+# test-ui-pom-autotests
