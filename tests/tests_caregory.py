@@ -8,7 +8,7 @@ def test_steel_checkbox(desk_category_page):
     desk_category_page.wait_for_active_checkbox()
 
     product_cards = desk_category_page.find_all_product_cards()
-    assert len(product_cards) == 1
+    desk_category_page.assert_len(product_cards, 1)
 
 
 def test_search_input(desk_category_page):
@@ -17,12 +17,12 @@ def test_search_input(desk_category_page):
     desk_category_page.wait_until_window_is_ready()
 
     search_input = desk_category_page.find_search_input()
-    search_input.send_keys("Desk")
+    search_word = "Desk"
+    search_input.send_keys(search_word)
     search_input.submit()
     product_cards = desk_category_page.find_all_product_cards()
 
-    for card in product_cards:
-        assert "Desk" in card.text
+    desk_category_page.assert_elements_text(search_word, product_cards)
 
 
 def test_drag_price_thumb(desk_category_page):
@@ -33,6 +33,4 @@ def test_drag_price_thumb(desk_category_page):
     desk_category_page.drag_right_thumb(target_price=target_price)
 
     product_cards_prices = desk_category_page.get_product_card_processed_prices()
-
-    for price in product_cards_prices:
-        assert price < target_price
+    desk_category_page.assert_price_less(target_price, product_cards_prices)

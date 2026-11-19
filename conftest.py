@@ -21,7 +21,7 @@ def chrome_options():
 def driver(chrome_options):
     driver = webdriver.Chrome(chrome_options)
     yield driver
-    driver.close()
+    driver.quit()
 
 
 @pytest.fixture
