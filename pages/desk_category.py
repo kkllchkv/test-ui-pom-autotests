@@ -60,3 +60,21 @@ class DeskCategory(BasePage):
         assert len(prices) > 0, "couldn't find any product card prices"
 
         return [float(price.text) for price in prices]
+
+    def assert_len(self, data, expected_len):
+        assert len(data) == expected_len, (f"Data length does not match expected length. "
+                                           f"Exepected '{expected_len}' got '{len(data)}'")
+
+    def assert_elements_text(self, expected_text, collection: list):
+        if not collection:
+            raise ValueError(f"Data collection cannot be empty")
+
+        for element in collection:
+            assert expected_text in element.text
+
+    def assert_price_less(self, target_price, prices: list):
+        if not prices:
+            raise ValueError(f"Data collection cannot be empty.")
+
+        for price in prices:
+            assert price < target_price

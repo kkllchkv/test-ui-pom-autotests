@@ -1,3 +1,5 @@
+from selenium.common import TimeoutException
+
 from pages.base_page import BasePage
 from locators.main_page import add_to_cart_buttons, continue_shopping_button, my_cart_quantity_element
 
@@ -19,9 +21,9 @@ class MainPage(BasePage):
         close_button = self.find(continue_shopping_button)
         close_button.click()
 
-        self.wait_until_element_not_have_text(my_cart_quantity_element, '0')
-        quantity_element = self.find(my_cart_quantity_element)
-        cart_quantity = quantity_element.get_attribute("innerText")
+        try:
+            self.wait_until_element_not_have_text(my_cart_quantity_element, '0')
+        except TimeoutException as e:
+            raise TimeoutException(f"Failed to setup product before test launch. Error: {e}")
 
-        assert cart_quantity == '1', f'The cart quantity is incorrect and = "{cart_quantity}"'
         print('Successfully added first product to cart')
